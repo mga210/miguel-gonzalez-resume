@@ -1,26 +1,28 @@
-# Miguel Gonzalez - Resume
+# Miguel Gonzalez — Resume
 
-This repository contains Miguel Gonzalez's professional resume, deployed using GitHub Pages.
+Professional HTML resume, deployed via GitHub Pages.
 
-## 🌐 View Online
+**Live:** https://mgsystemsdev.github.io/resume-MG/
 
-The resume is available online at: `https://mgsystemsdev.github.io/resume-MG/`
+## Files
 
-## 📄 Files
+| File | Purpose |
+|------|---------|
+| `index.html` | Resume (web + print) |
+| `Miguel_Gonzalez_Resume.pdf` | Downloadable PDF |
+| `Miguel_Gonzalez_Resume.docx` | Downloadable Word |
+| `_config.yml` | GitHub Pages config |
 
-- `index.html` - Main resume file (optimized for web)
-- `Resumen_Miguel_Gonzalez.html` - Original resume file
-- `_config.yml` - GitHub Pages configuration
+## Local preview
 
-## 🚀 Deployment
+Open `index.html` in a browser, or from this folder:
 
-This site is automatically deployed to GitHub Pages when changes are pushed to the main branch.
+```bash
+python3 -m http.server 8080
+```
 
-### To enable GitHub Pages:
-1. Go to repository Settings
-2. Navigate to Pages section
-3. Set Source to "Deploy from a branch"
-4. Select "main" branch and "/ (root)" folder
-5. Save the settings
+Then visit `http://localhost:8080`.
 
-The resume will be available at the GitHub Pages URL within a few minutes.
+## Deploy
+
+Push to `main`. GitHub Pages serves the root folder automatically.
