@@ -4,12 +4,14 @@ Professional HTML resume, deployed via GitHub Pages. Content synced from `mg/con
 
 **Live:** https://mgsystemsdev.github.io/resume-MG/
 
+Use the segmented control to switch variants (Implementation / Product / Program / Solutions / Operations). Word download always matches the variant on screen. Deep link with `?v=product` (etc.).
+
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `index.html` | Resume (web + print) — Implementation variant |
-| `Miguel_Gonzalez_Resume.docx` | Implementation (AI deployment / solutions) |
+| `index.html` | Resume (web + print) with live variant switcher |
+| `Miguel_Gonzalez_Resume.docx` | Implementation |
 | `Miguel_Gonzalez_Resume_Product.docx` | Product |
 | `Miguel_Gonzalez_Resume_Program.docx` | Program |
 | `Miguel_Gonzalez_Resume_Solutions.docx` | Solutions |

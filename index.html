@@ -41,7 +41,6 @@
 }
 
 * { box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -55,55 +54,54 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-a {
-  color: var(--accent);
-  text-decoration: none;
-  transition: color 0.2s var(--ease);
-}
-
+a { color: var(--accent); text-decoration: none; transition: color 0.2s var(--ease); }
 a:hover { text-decoration: underline; text-underline-offset: 3px; }
-
-a:focus-visible {
+a:focus-visible, button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
-/* —— Top bar —— */
-.bar {
+.toolbar {
   position: sticky;
   top: 0;
   z-index: 10;
   max-width: 880px;
   margin: 0 auto;
-  padding: 14px 16px;
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+  padding: 12px 16px 8px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   background: color-mix(in srgb, var(--bg) 82%, transparent);
 }
 
-.bar.variants {
-  position: static;
-  justify-content: flex-end;
-  padding-top: 0;
-  padding-bottom: 8px;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  background: transparent;
+.toolbar-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-.bar.variants a {
+.toolbar-row.actions { justify-content: flex-end; margin-bottom: 8px; }
+
+.toolbar-row.variants {
+  justify-content: flex-start;
+  gap: 0;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--paper);
+  overflow: hidden;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.variant-hint {
+  margin: 8px 0 0;
   font-size: 12.5px;
-  font-weight: 500;
-  padding: 6px 12px;
+  color: var(--muted);
+  min-height: 1.2em;
 }
 
-.bar a,
-.bar button {
+.pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -122,31 +120,44 @@ a:focus-visible {
   transition: border-color 0.2s var(--ease), background 0.2s var(--ease), transform 0.2s var(--ease);
 }
 
-.bar a:hover,
-.bar button:hover {
+.pill:hover {
   border-color: var(--accent);
   background: var(--accent-soft);
   text-decoration: none;
   transform: translateY(-1px);
 }
 
-.bar a:active,
-.bar button:active { transform: translateY(0); }
+.pill:active { transform: translateY(0); }
+.pill svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.85; }
 
-.bar a:focus-visible,
-.bar button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+.seg {
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--rule);
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
 }
 
-.bar svg {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-  opacity: 0.85;
+.seg:last-child { border-right: 0; }
+.seg:hover { background: var(--accent-soft); color: var(--accent); }
+.seg[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
 }
 
-/* —— Sheet —— */
+@media (prefers-color-scheme: dark) {
+  .seg[aria-pressed="true"] {
+    background: var(--accent);
+    color: var(--bg);
+  }
+}
+
 main {
   max-width: 880px;
   margin: 0 auto 56px;
@@ -155,21 +166,8 @@ main {
   border: 1px solid var(--rule);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  animation: rise 0.45s var(--ease) both;
 }
 
-@keyframes rise {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  main { animation: none; }
-  html { scroll-behavior: auto; }
-  .bar a { transition: none; }
-}
-
-/* —— Header —— */
 header {
   padding-bottom: 22px;
   border-bottom: 1px solid var(--rule);
@@ -213,11 +211,7 @@ h1 {
   color: var(--muted);
 }
 
-.contact > * {
-  display: inline-flex;
-  align-items: center;
-}
-
+.contact > * { display: inline-flex; align-items: center; }
 .contact > *:not(:last-child)::after {
   content: "";
   display: inline-block;
@@ -228,7 +222,6 @@ h1 {
   background: var(--rule);
 }
 
-/* —— Sections —— */
 section { margin-top: 28px; }
 
 h2 {
@@ -242,42 +235,24 @@ h2 {
   border-bottom: 1px solid var(--rule);
 }
 
-h3 {
-  margin: 0;
-  font-size: 1.02rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
+h3 { margin: 0; font-size: 1.02rem; font-weight: 600; letter-spacing: -0.01em; }
 p { margin: 0 0 10px; }
-
-ul {
-  margin: 6px 0 0;
-  padding-left: 1.15rem;
-}
-
+ul { margin: 6px 0 0; padding-left: 1.15rem; }
 li { margin-bottom: 7px; }
 li::marker { color: color-mix(in srgb, var(--accent) 70%, var(--muted)); }
 
-/* —— Capabilities —— */
-.caps {
-  display: grid;
-  gap: 12px;
-}
+.caps { display: grid; gap: 12px; }
 
 .cap {
   display: grid;
-  grid-template-columns: 140px 1fr;
+  grid-template-columns: minmax(110px, 160px) 1fr;
   gap: 12px 16px;
   align-items: start;
   padding: 10px 12px;
   background: var(--chip);
   border-radius: 8px;
   border: 1px solid transparent;
-  transition: border-color 0.2s var(--ease);
 }
-
-.cap:hover { border-color: var(--rule); }
 
 .cap-label {
   font-size: 0.78rem;
@@ -288,13 +263,8 @@ li::marker { color: color-mix(in srgb, var(--accent) 70%, var(--muted)); }
   padding-top: 2px;
 }
 
-.cap-body {
-  margin: 0;
-  font-size: 0.95rem;
-  color: var(--ink);
-}
+.cap-body { margin: 0; font-size: 0.95rem; color: var(--ink); }
 
-/* —— Case study —— */
 .case-head {
   display: flex;
   flex-wrap: wrap;
@@ -316,30 +286,17 @@ li::marker { color: color-mix(in srgb, var(--accent) 70%, var(--muted)); }
   font-style: normal;
 }
 
-.intro {
-  color: var(--muted);
-  font-style: italic;
-  margin-bottom: 8px;
-}
+.intro { color: var(--muted); font-style: italic; margin-bottom: 8px; }
 
-/* —— Other systems —— */
 .sys {
   margin: 0 0 12px;
   padding-left: 12px;
   border-left: 2px solid var(--rule);
-  transition: border-color 0.2s var(--ease);
 }
-
-.sys:hover { border-left-color: var(--accent); }
 .sys:last-child { margin-bottom: 0; }
 .sys b { color: var(--ink); }
 
-/* —— Jobs —— */
-.job {
-  margin-top: 18px;
-  padding-top: 2px;
-}
-
+.job { margin-top: 18px; padding-top: 2px; }
 .job:first-of-type { margin-top: 4px; }
 
 .role {
@@ -351,11 +308,7 @@ li::marker { color: color-mix(in srgb, var(--accent) 70%, var(--muted)); }
   margin-bottom: 2px;
 }
 
-.role .where {
-  font-weight: 400;
-  color: var(--muted);
-}
-
+.role .where { font-weight: 400; color: var(--muted); }
 .dates {
   font-size: 0.875rem;
   color: var(--muted);
@@ -364,10 +317,8 @@ li::marker { color: color-mix(in srgb, var(--accent) 70%, var(--muted)); }
 }
 
 .muted { color: var(--muted); }
-
 .edu p { margin-bottom: 6px; }
 
-/* —— Responsive —— */
 @media (max-width: 640px) {
   main {
     margin: 0 0 32px;
@@ -376,204 +327,208 @@ li::marker { color: color-mix(in srgb, var(--accent) 70%, var(--muted)); }
     border-left: 0;
     border-right: 0;
   }
-
-  .cap {
-    grid-template-columns: 1fr;
-    gap: 4px;
-  }
-
-  .contact > *:not(:last-child)::after {
-    margin: 0 8px;
-  }
-
+  .cap { grid-template-columns: 1fr; gap: 4px; }
+  .contact > *:not(:last-child)::after { margin: 0 8px; }
   h1 { font-size: 1.5rem; }
+  .toolbar-row.variants { width: 100%; }
+  .seg { flex: 1; text-align: center; padding: 8px 6px; font-size: 11.5px; }
 }
 
-/* —— Print —— */
 @media print {
-  body {
-    background: #fff;
-    font-size: 10.5pt;
-    color: #000;
-  }
-
-  .bar,
-  .bar.variants { display: none !important; }
-
+  body { background: #fff; font-size: 10.5pt; color: #000; }
+  .toolbar { display: none !important; }
   main {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    max-width: none;
-    box-shadow: none;
-    animation: none;
+    border: 0; margin: 0; padding: 0; max-width: none; box-shadow: none;
   }
-
   h1, h2, a { color: #111; }
   a { text-decoration: none; }
-
-  .cap {
-    background: transparent;
-    padding: 4px 0;
-    border: 0;
-  }
-
-  .tag {
-    background: transparent;
-    border: 1px solid #111;
-    padding: 1px 6px;
-  }
-
+  .cap { background: transparent; padding: 4px 0; border: 0; }
+  .tag { background: transparent; border: 1px solid #111; padding: 1px 6px; }
   .sys { border-left-color: #111; }
-  section { break-inside: avoid; }
-  .job { break-inside: avoid; }
+  section, .job { break-inside: avoid; }
 }
 </style>
 </head>
 <body>
-<nav class="bar" aria-label="Resume actions">
-  <a href="https://mgsystemsdev.github.io" target="_blank" rel="noopener">Portfolio</a>
-  <a href="Miguel_Gonzalez_Resume.docx" download>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-    Word
-  </a>
-  <button type="button" onclick="window.print()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-    Print
-  </button>
-</nav>
-<div class="bar variants" aria-label="Resume variants">
-  <a href="Miguel_Gonzalez_Resume_Product.docx" download>Product</a>
-  <a href="Miguel_Gonzalez_Resume_Program.docx" download>Program</a>
-  <a href="Miguel_Gonzalez_Resume_Solutions.docx" download>Solutions</a>
-  <a href="Miguel_Gonzalez_Resume_Operations.docx" download>Operations</a>
+<div class="toolbar">
+  <div class="toolbar-row actions" aria-label="Resume actions">
+    <a class="pill" id="portfolio-link" href="https://mgsystemsdev.github.io" target="_blank" rel="noopener">Portfolio</a>
+    <a class="pill" id="download-word" href="Miguel_Gonzalez_Resume.docx" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Word
+    </a>
+    <button type="button" class="pill" onclick="window.print()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print
+    </button>
+  </div>
+  <div class="toolbar-row variants" id="variant-tabs" role="tablist" aria-label="Resume variant"></div>
+  <p class="variant-hint" id="variant-hint"></p>
 </div>
 
-<main>
-  <header>
-    <h1>Miguel A. Gonzalez Almonte</h1>
-    <p class="headline">Senior Technical Product &amp; AI Implementation Leader</p>
-    <div class="contact">
-      <span>Plano, TX</span>
-      <a href="tel:+17873679843">787-367-9843</a>
-      <a href="mailto:mg.systems.dev@gmail.com">mg.systems.dev@gmail.com</a>
-      <a href="https://www.linkedin.com/in/miguel-gonzalez-8a389791">LinkedIn</a>
-      <a href="https://github.com/mgsystemsdev">GitHub</a>
-    </div>
-  </header>
+<main id="resume"></main>
 
-  <section aria-labelledby="summary">
-    <h2 id="summary">Summary</h2>
-    <p>Operations leader with 10+ years in multifamily property operations who finds expensive workflow failures, designs the product and operating model that fixes them, directs the build, and gets people to use it. Currently running make-ready operations for 2,444 units.</p>
-    <p>Designed and deployed a GPT-4o-powered operations platform (57-table PostgreSQL, four production services) proven in a live 2,444-unit residential operation with 15 daily users. I work spec-first: I define the problem, the architecture, the acceptance criteria and the tests, direct AI coding tools to implement, and own every design decision and failure analysis.</p>
-  </section>
+<script id="resume-data" type="application/json">{"name":"Miguel A. Gonzalez Almonte","location":"Plano, TX","phone":"787-367-9843","email":"mg.systems.dev@gmail.com","links":{"linkedin":"https://www.linkedin.com/in/miguel-gonzalez-8a389791","github":"https://github.com/mgsystemsdev","site":"https://mgsystemsdev.github.io"},"experience":[{"company":"Billingsley Company","location":"Dallas, TX","roles":[{"title":"Senior Make-Ready Manager","dates":"Oct 2025 – Present"}],"bullets":["Manage make-ready operations for 2,444 units across six phases, each operated as its own property.","Lead a 7-person make-ready organization (2 assistant managers, 1 coordinator, 4 technicians) and a network of outside vendors.","Manage a unit renovation program in one phase alongside daily turn operations.","Run turns end to end: scheduling, vendor coordination, inspections, and readiness reporting to leasing and management, working to a seven-business-day turn standard."]},{"company":"MAA","location":"Dallas, TX","roles":[{"title":"Service Manager","dates":"Jun 2023 – Oct 2025"}],"bullets":["Managed a $1M+ operating budget and $5M+ in capital projects across a 535+ unit operation.","Led a 7-person team (4 technicians, 2 make-ready staff, 1 housekeeper) and coordinated outside vendors.","Took an over-budget maintenance operation to roughly $30K under budget in a single month, close to 40% of the monthly budget.","Built Python reporting and KPI dashboards that replaced manual reports; audit pass rates improved about 30%. Trained 8 to 10 staff on the new tools."]},{"company":"RPM Living","location":"Dallas, TX","roles":[{"title":"Service Manager","dates":"May 2022 – Jun 2023"}],"bullets":["Built Excel/VBA automation that cut reporting time by roughly 70% through a redesigned data model and automated aggregation."]},{"company":"First Choice","location":"Dallas, TX","roles":[{"title":"Residential Renovation Lead","dates":"Jan 2021 – May 2022"}],"bullets":["Led scheduling, budgeting and milestone tracking for high-volume residential renovations across concurrent projects."]}],"earlierRoles":"Maintenance Technician II (American Community), Operations Assistant to Kitchen Manager (Universal Studios)","education":["B.B.A., Computer Information Systems, Ana G. Méndez University (expected Dec 2027)","IBM AI Engineering Professional Certificate (in progress)","Google Project Management Certificate (2025), Python for Everybody, University of Michigan (2025)","Industry credentials: EPA 608 Universal, Certified Pool Operator"],"shortBio":"I design and deploy AI operations systems for property operations. Builder of DMRB, a make-ready intelligence platform. 10+ years in ops.","variants":[{"id":"implementation","file":"Miguel_Gonzalez_Resume.docx","label":"Implementation","for":"AI Deployment Manager, AI Implementation Manager, Solutions Architect","headline":"Senior Technical Product & AI Implementation Leader","summary":["Operations leader with 10+ years in multifamily property operations who finds expensive workflow failures, designs the product and operating model that fixes them, directs the build, and gets people to use it. Currently running make-ready operations for 2,444 units.","Designed and deployed a GPT-4o-powered operations platform (57-table PostgreSQL, four production services) proven in a live 2,444-unit residential operation with 15 daily users. I work spec-first: I define the problem, the architecture, the acceptance criteria and the tests, direct AI coding tools to implement, and own every design decision and failure analysis."],"sections":["summary","capabilities","product","systems","experience","education"],"capabilities":[{"label":"Product & Deployment","items":"AI deployment lifecycle, requirements discovery, specification-driven development, stakeholder alignment, user training and adoption, change management, success metrics, project management"},{"label":"AI Implementation","items":"GPT-4o and LLM integration, grounding and anti-hallucination design, AI governance (recommend-only), intent classification, deterministic evaluation, engine adapters (OpenAI, Anthropic, local)"},{"label":"Architecture","items":"Python, FastAPI, SQLAlchemy, Alembic, Node.js, TypeScript, Next.js, React, PostgreSQL, SQLite, REST APIs, multi-tenant design, CI/CD (GitHub Actions), Railway, Git"},{"label":"Operations","items":"SLA and KPI design, rules-engine design, budget management, vendor coordination, automated dispatch, Yardi, RealPage"}],"product":{"title":"Make-Ready Intelligence Platform (DMRB)","heading":"Product Case Study","tag":"Product I designed and built","intro":"AI operations platform for apartment unit turns, proven in a live 2,444-unit residential operation: 15 daily users across 5 roles, 8+ months in production.","bullets":["Found the problem from 10+ years inside operations: unit-readiness knowledge was scattered across spreadsheets, verbal updates and property-system exports, with no audit trail and no gate against premature move-ins.","Designed a 57-table PostgreSQL data model around the unit lifecycle, with append-only event history, field-level import audit trails and scoped vendor access by token.","Turned operational judgment into a deterministic rules engine: 11 breach signals (move-in risk, SLA breach, inspection breach, stale units) evaluated in strict priority order and feeding 22 ranked action queues. It flags move-in risk up to 3 business days early.","Deployed a GPT-4o assistant grounded in live data through one snapshot pipeline that the UI, the operations views and the AI all read. The AI recommends and never writes to business state.","Built anti-hallucination guardrails: intent classification, role-scoped context, server-computed summaries, token budgets, rate limiting, and a deterministic fallback when the model is unavailable.","Drove adoption across leasing, management, field and vendor users through hands-on training. The platform became the daily system of record for scheduling, vendor dispatch and SLA tracking, and supported a seven-business-day turn standard.","Scale: four production services, 950 commits across backend and frontend, 358 test files. Now leading a multi-tenant Python/FastAPI rewrite with tenant isolation, Alembic migrations and 594 tests wired into CI."]},"systems":[{"title":"MG-OPS, graph-first engineering knowledge system","text":"One SQLite graph as the single source of truth for project knowledge, with one validated write path so AI tools and scripts can't record contradictory facts. 25 entity types, 31 relationship types, 12 migrations, 1,173 graph tests.","key":"mgops"},{"title":"mg-agent, governed AI agent platform","text":"Typed capabilities, approval gates, 8 engine adapters, and a replay harness that tests the platform with the model held constant, including rejection of false claims of completion. 666 passing tests in the November 2026 run.","key":"mgagent"},{"title":"Hers RD, collaborative SaaS product","text":"Co-defined an RC racing product with a senior AWS engineer. I owned product definition (21 features, 10 domains, 12 API contracts), the data model and the database foundation (a merged 3,066-line schema and migrations change), and built the proof of concept. He owned the AWS infrastructure.","key":"hers"}]},{"id":"product","file":"Miguel_Gonzalez_Resume_Product.docx","label":"Product","for":"Product Manager, Product Owner, Technical Product Manager","headline":"Technical Product Leader | Operations Platforms & AI","summary":["Product leader who comes from the operation. 10+ years in multifamily property operations, now leading a 7-person organization that includes two managers, across 2,444 units.","Defined and shipped an AI operations platform used daily by 15 people in a live 2,444-unit operation: found the problem, wrote the requirements, set the priorities and measured the outcomes. I work spec-first: I define the problem, the architecture, the acceptance criteria and the tests, direct AI coding tools to implement, and own every design decision."],"sections":["summary","capabilities","product","systems","experience","education"],"capabilities":[{"label":"Product & Deployment","items":"AI deployment lifecycle, requirements discovery, specification-driven development, stakeholder alignment, user training and adoption, change management, success metrics, project management"},{"label":"Leadership","items":"Leading managers, coordinators and technicians, vendor management, budget ownership, hiring and training, reporting to leadership"},{"label":"AI Implementation","items":"GPT-4o and LLM integration, grounding and anti-hallucination design, AI governance (recommend-only), intent classification, deterministic evaluation, engine adapters (OpenAI, Anthropic, local)"},{"label":"Architecture","items":"Python, FastAPI, SQLAlchemy, Alembic, Node.js, TypeScript, Next.js, React, PostgreSQL, SQLite, REST APIs, multi-tenant design, CI/CD (GitHub Actions), Railway, Git"}],"product":{"title":"Make-Ready Intelligence Platform (DMRB)","heading":"Product Case Study","tag":"Product I defined and shipped","intro":"AI operations platform for apartment unit turns, proven in a live 2,444-unit residential operation: 15 daily users across 5 roles, 8+ months in production.","bullets":["Found the problem from 10+ years inside operations: unit-readiness knowledge was scattered across spreadsheets, verbal updates and property-system exports, with no audit trail and no gate against premature move-ins.","Defined the product from the user's side: mapped the unit-turn workflow for five user roles, wrote the requirements and acceptance criteria, and set the priorities for what shipped first.","Turned operational judgment into a deterministic rules engine: 11 breach signals (move-in risk, SLA breach, inspection breach, stale units) evaluated in strict priority order and feeding 22 ranked action queues. It flags move-in risk up to 3 business days early.","Deployed a GPT-4o assistant grounded in live data through one snapshot pipeline that the UI, the operations views and the AI all read. The AI recommends and never writes to business state.","Measured outcomes, not features: move-in risk is flagged up to 3 business days early, leasing staff answer unit-readiness questions themselves, and leadership sees live portfolio status instead of manual reports.","Drove adoption across leasing, management, field and vendor users through hands-on training. The platform became the daily system of record for scheduling, vendor dispatch and SLA tracking, and supported a seven-business-day turn standard.","Leading the multi-tenant rebuild as the product owner: tenant isolation, a phased migration plan, and 594 tests wired into CI."]},"systems":[{"title":"Hers RD, collaborative SaaS product","text":"Co-defined an RC racing product with a senior AWS engineer. I owned product definition (21 features, 10 domains, 12 API contracts), the data model and the database foundation (a merged 3,066-line schema and migrations change), and built the proof of concept. He owned the AWS infrastructure.","key":"hers"},{"title":"MG-OPS, graph-first engineering knowledge system","text":"One SQLite graph as the single source of truth for project knowledge, with one validated write path so AI tools and scripts can't record contradictory facts. 25 entity types, 31 relationship types, 12 migrations, 1,173 graph tests.","key":"mgops"},{"title":"mg-agent, governed AI agent platform","text":"Typed capabilities, approval gates, 8 engine adapters, and a replay harness that tests the platform with the model held constant, including rejection of false claims of completion. 666 passing tests in the November 2026 run.","key":"mgagent"}]},{"id":"program","file":"Miguel_Gonzalez_Resume_Program.docx","label":"Program","for":"Program Manager, Technical Program Manager, Senior Project Manager","headline":"Senior Program & Operations Leader | Technology Delivery","summary":["Operations and delivery leader with 10+ years in multifamily property operations. I manage 2,444 units across six phases, each operated as its own property, lead a 7-person organization that includes two managers, and coordinate outside vendors. Previously managed a $1M+ operating budget and $5M+ in capital projects.","Planned and delivered an AI operations platform from problem definition to daily use: four production services, 15 daily users, 8+ months in production. I bring structure to unclear problems, keep delivery moving across teams and vendors, and report progress in numbers."],"sections":["summary","capabilities","experience","product","systems","education"],"capabilities":[{"label":"Program Delivery","items":"Scoping, phased delivery, dependency and risk tracking, budget and capital project management, vendor coordination, stakeholder reporting, change management, Google Project Management Certificate"},{"label":"Leadership","items":"Leading managers, coordinators and technicians, vendor management, budget ownership, hiring and training, reporting to leadership"},{"label":"Product & Deployment","items":"AI deployment lifecycle, requirements discovery, specification-driven development, stakeholder alignment, user training and adoption, change management, success metrics, project management"},{"label":"Architecture","items":"Python, FastAPI, SQLAlchemy, Alembic, Node.js, TypeScript, Next.js, React, PostgreSQL, SQLite, REST APIs, multi-tenant design, CI/CD (GitHub Actions), Railway, Git"}],"product":{"title":"Make-Ready Intelligence Platform (DMRB)","heading":"Program Case Study","tag":"Planned, delivered and adopted","intro":"AI operations platform for apartment unit turns, proven in a live 2,444-unit residential operation: 15 daily users across 5 roles, 8+ months in production.","bullets":["Found the problem from 10+ years inside operations: unit-readiness knowledge was scattered across spreadsheets, verbal updates and property-system exports, with no audit trail and no gate against premature move-ins.","Scoped and sequenced delivery across four production services over 8+ months, rolling each change out to 15 daily users in a live operation.","Drove adoption across leasing, management, field and vendor users through hands-on training. The platform became the daily system of record for scheduling, vendor dispatch and SLA tracking, and supported a seven-business-day turn standard.","Measured outcomes, not features: move-in risk is flagged up to 3 business days early, leasing staff answer unit-readiness questions themselves, and leadership sees live portfolio status instead of manual reports.","Leading the multi-tenant rebuild as the product owner: tenant isolation, a phased migration plan, and 594 tests wired into CI."]},"systems":[{"title":"Hers RD, collaborative SaaS product","text":"Co-defined an RC racing product with a senior AWS engineer. I owned product definition (21 features, 10 domains, 12 API contracts), the data model and the database foundation (a merged 3,066-line schema and migrations change), and built the proof of concept. He owned the AWS infrastructure.","key":"hers"},{"title":"mg-agent, governed AI agent platform","text":"Typed capabilities, approval gates, 8 engine adapters, and a replay harness that tests the platform with the model held constant, including rejection of false claims of completion. 666 passing tests in the November 2026 run.","key":"mgagent"}]},{"id":"solutions","file":"Miguel_Gonzalez_Resume_Solutions.docx","label":"Solutions","for":"Solutions Consultant, Implementation Consultant, Customer Success Manager, Sales Engineer","headline":"Solutions & Implementation Leader | Property Technology","summary":["I've been the customer for 10+ years. I run make-ready operations for 2,444 units, work in property management software every day, and know where it helps a site team and where it gets in the way.","I also build it. I designed and deployed an AI operations platform used daily by 15 people across leasing, management, field and vendor roles, and trained them on it. I can sit with an operator, map how the work really gets done, and turn it into requirements an engineering team can build from."],"sections":["summary","capabilities","product","experience","systems","education"],"capabilities":[{"label":"Customer & Implementation","items":"Requirements discovery, workflow mapping, onboarding and training, data imports from Yardi and RealPage exports, adoption tracking, translating between operators and engineers"},{"label":"Operations","items":"SLA and KPI design, rules-engine design, budget management, vendor coordination, automated dispatch, Yardi, RealPage"},{"label":"AI Implementation","items":"GPT-4o and LLM integration, grounding and anti-hallucination design, AI governance (recommend-only), intent classification, deterministic evaluation, engine adapters (OpenAI, Anthropic, local)"},{"label":"Architecture","items":"Python, FastAPI, SQLAlchemy, Alembic, Node.js, TypeScript, Next.js, React, PostgreSQL, SQLite, REST APIs, multi-tenant design, CI/CD (GitHub Actions), Railway, Git"}],"product":{"title":"Make-Ready Intelligence Platform (DMRB)","heading":"Implementation Case Study","tag":"Designed, deployed and adopted","intro":"AI operations platform for apartment unit turns, proven in a live 2,444-unit residential operation: 15 daily users across 5 roles, 8+ months in production.","bullets":["Built it as the customer: I've worked in Yardi and RealPage as an operator for years, so the platform follows how property teams work day to day.","Found the problem from 10+ years inside operations: unit-readiness knowledge was scattered across spreadsheets, verbal updates and property-system exports, with no audit trail and no gate against premature move-ins.","Handles real operating data: imports property-system exports with field-level audit trails, and gives outside vendors scoped access by token.","Onboarded and trained users across leasing, management, field and vendor teams, and turned their feedback into product changes.","Deployed a GPT-4o assistant grounded in live data through one snapshot pipeline that the UI, the operations views and the AI all read. The AI recommends and never writes to business state.","Measured outcomes, not features: move-in risk is flagged up to 3 business days early, leasing staff answer unit-readiness questions themselves, and leadership sees live portfolio status instead of manual reports."]},"systems":[{"title":"Hers RD, collaborative SaaS product","text":"Co-defined an RC racing product with a senior AWS engineer. I owned product definition (21 features, 10 domains, 12 API contracts), the data model and the database foundation (a merged 3,066-line schema and migrations change), and built the proof of concept. He owned the AWS infrastructure.","key":"hers"},{"title":"mg-agent, governed AI agent platform","text":"Typed capabilities, approval gates, 8 engine adapters, and a replay harness that tests the platform with the model held constant, including rejection of false claims of completion. 666 passing tests in the November 2026 run.","key":"mgagent"}]},{"id":"operations","file":"Miguel_Gonzalez_Resume_Operations.docx","label":"Operations","for":"Regional or senior maintenance and operations roles in property management","headline":"Senior Operations Leader | Multifamily Make-Ready & Maintenance","summary":["Operations leader with 10+ years in multifamily maintenance and make-ready. Currently responsible for 2,444 units across six phases, each operated as its own property, leading a 7-person organization that includes two assistant managers, and coordinating outside vendors.","Managed a $1M+ operating budget and $5M+ in capital projects, and took an over-budget operation to roughly $30K under budget in a single month. Currently managing a unit renovation program alongside daily operations. I build the tools my teams run on, including an operations platform that flags move-in risk days early."],"sections":["summary","capabilities","experience","product","education"],"capabilities":[{"label":"Operations","items":"SLA and KPI design, rules-engine design, budget management, vendor coordination, automated dispatch, Yardi, RealPage"},{"label":"Leadership","items":"Leading managers, coordinators and technicians, vendor management, budget ownership, hiring and training, reporting to leadership"}],"product":{"title":"Make-Ready Intelligence Platform (DMRB)","heading":"Systems I Built","tag":"Built on my own time","intro":"Operations platform for apartment unit turns, proven in a live 2,444-unit operation with 15 daily users.","bullets":["Designed and built an operations platform that tracks every unit through its turn and became the team's daily system of record for scheduling, vendor dispatch and SLA tracking.","Its rules engine flags move-in risk up to 3 business days early, and a GPT-4o assistant answers unit-readiness questions from live data."]},"systems":[]}]}</script>
+<script>
+(function () {
+  const DATA = JSON.parse(document.getElementById("resume-data").textContent);
+  const root = document.getElementById("resume");
+  const tabs = document.getElementById("variant-tabs");
+  const hint = document.getElementById("variant-hint");
+  const download = document.getElementById("download-word");
+  const portfolio = document.getElementById("portfolio-link");
+  portfolio.href = DATA.links.site;
 
-  <section aria-labelledby="capabilities">
-    <h2 id="capabilities">Core Capabilities</h2>
-    <div class="caps">
-      <div class="cap">
-        <span class="cap-label">Product</span>
-        <p class="cap-body">AI deployment lifecycle, requirements discovery, specification-driven development, stakeholder alignment, user training and adoption, change management, success metrics, project management</p>
+  const esc = (s) => String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
+  function shortLabel(label) {
+    const map = {
+      "Product & Deployment": "Product",
+      "AI Implementation": "AI",
+      "Architecture": "Architecture",
+      "Operations": "Operations",
+      "Leadership": "Leadership",
+      "Program Delivery": "Delivery",
+      "Customer & Implementation": "Customer"
+    };
+    return map[label] || label;
+  }
+
+  function sectionSummary(v) {
+    return `<section aria-labelledby="summary">
+      <h2 id="summary">Summary</h2>
+      ${v.summary.map((p) => `<p>${esc(p)}</p>`).join("")}
+    </section>`;
+  }
+
+  function sectionCapabilities(v) {
+    return `<section aria-labelledby="capabilities">
+      <h2 id="capabilities">Core Capabilities</h2>
+      <div class="caps">
+        ${v.capabilities.map((c) => `<div class="cap">
+          <span class="cap-label">${esc(shortLabel(c.label))}</span>
+          <p class="cap-body">${esc(c.items)}</p>
+        </div>`).join("")}
       </div>
-      <div class="cap">
-        <span class="cap-label">AI</span>
-        <p class="cap-body">GPT-4o and LLM integration, grounding and anti-hallucination design, AI governance (recommend-only), intent classification, deterministic evaluation, engine adapters (OpenAI, Anthropic, local)</p>
+    </section>`;
+  }
+
+  function sectionProduct(v) {
+    return `<section aria-labelledby="case-study">
+      <h2 id="case-study">${esc(v.product.heading)}</h2>
+      <div class="case-head">
+        <h3>${esc(v.product.title)}</h3>
+        <span class="tag">${esc(v.product.tag)}</span>
       </div>
-      <div class="cap">
-        <span class="cap-label">Architecture</span>
-        <p class="cap-body">Python, FastAPI, SQLAlchemy, Alembic, Node.js, TypeScript, Next.js, React, PostgreSQL, SQLite, REST APIs, multi-tenant design, CI/CD (GitHub Actions), Railway, Git</p>
-      </div>
-      <div class="cap">
-        <span class="cap-label">Operations</span>
-        <p class="cap-body">SLA and KPI design, rules-engine design, budget management, vendor coordination, automated dispatch, Yardi, RealPage</p>
-      </div>
-    </div>
-  </section>
+      <p class="intro">${esc(v.product.intro)}</p>
+      <ul>${v.product.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>
+    </section>`;
+  }
 
-  <section aria-labelledby="case-study">
-    <h2 id="case-study">Product Case Study</h2>
-    <div class="case-head">
-      <h3>Make-Ready Intelligence Platform (DMRB)</h3>
-      <span class="tag">Designed &amp; built</span>
-    </div>
-    <p class="intro">AI operations platform for apartment unit turns, proven in a live 2,444-unit residential operation: 15 daily users across 5 roles, 8+ months in production.</p>
-    <ul>
-      <li>Found the problem from 10+ years inside operations: unit-readiness knowledge was scattered across spreadsheets, verbal updates and property-system exports, with no audit trail and no gate against premature move-ins.</li>
-      <li>Designed a 57-table PostgreSQL data model around the unit lifecycle, with append-only event history, field-level import audit trails and scoped vendor access by token.</li>
-      <li>Turned operational judgment into a deterministic rules engine: 11 breach signals (move-in risk, SLA breach, inspection breach, stale units) evaluated in strict priority order and feeding 22 ranked action queues. It flags move-in risk up to 3 business days early.</li>
-      <li>Deployed a GPT-4o assistant grounded in live data through one snapshot pipeline that the UI, the operations views and the AI all read. The AI recommends and never writes to business state.</li>
-      <li>Built anti-hallucination guardrails: intent classification, role-scoped context, server-computed summaries, token budgets, rate limiting, and a deterministic fallback when the model is unavailable.</li>
-      <li>Drove adoption across leasing, management, field and vendor users through hands-on training. The platform became the daily system of record for scheduling, vendor dispatch and SLA tracking, and supported a seven-business-day turn standard.</li>
-      <li>Scale: four production services, 950 commits across backend and frontend, 358 test files. Now leading a multi-tenant Python/FastAPI rewrite with tenant isolation, Alembic migrations and 594 tests wired into CI.</li>
-    </ul>
-  </section>
+  function sectionSystems(v) {
+    if (!v.systems.length) return "";
+    return `<section aria-labelledby="systems">
+      <h2 id="systems">Other Systems</h2>
+      ${v.systems.map((s) => `<p class="sys"><b>${esc(s.title)}.</b> ${esc(s.text)}</p>`).join("")}
+    </section>`;
+  }
 
-  <section aria-labelledby="systems">
-    <h2 id="systems">Other Systems</h2>
-    <p class="sys"><b>MG-OPS, graph-first engineering knowledge system.</b> One SQLite graph as the single source of truth for project knowledge, with one validated write path so AI tools and scripts can't record contradictory facts. 25 entity types, 31 relationship types, 12 migrations, 1,173 graph tests.</p>
-    <p class="sys"><b>mg-agent, governed AI agent platform.</b> Typed capabilities, approval gates, 8 engine adapters, and a replay harness that tests the platform with the model held constant, including rejection of false claims of completion. 666 passing tests in the November 2026 run.</p>
-    <p class="sys"><b>Hers RD, collaborative SaaS product.</b> Co-defined an RC racing product with a senior AWS engineer. I owned product definition (21 features, 10 domains, 12 API contracts), the data model and the database foundation (a merged 3,066-line schema and migrations change), and built the proof of concept. He owned the AWS infrastructure.</p>
-  </section>
+  function sectionExperience() {
+    const jobs = DATA.experience.map((job) => {
+      const roles = job.roles.map((r, i) => `<div class="role">
+        <h3>${esc(r.title)}${i === 0 ? ` <span class="where">| ${esc(job.company)}, ${esc(job.location)}</span>` : ""}</h3>
+        <span class="dates">${esc(r.dates)}</span>
+      </div>`).join("");
+      const bullets = job.bullets.length
+        ? `<ul>${job.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>`
+        : "";
+      return `<div class="job">${roles}${bullets}</div>`;
+    }).join("");
+    return `<section aria-labelledby="experience">
+      <h2 id="experience">Professional Experience</h2>
+      ${jobs}
+      <p class="muted" style="margin-top:16px"><b>Earlier roles:</b> ${esc(DATA.earlierRoles)}</p>
+    </section>`;
+  }
 
-  <section aria-labelledby="experience">
-    <h2 id="experience">Professional Experience</h2>
+  function sectionEducation() {
+    return `<section class="edu" aria-labelledby="education">
+      <h2 id="education">Education &amp; Certifications</h2>
+      ${DATA.education.map((e) => `<p>${esc(e)}</p>`).join("")}
+    </section>`;
+  }
 
-    <div class="job">
-      <div class="role">
-        <h3>Senior Make-Ready Manager <span class="where">| Billingsley Company, Dallas, TX</span></h3>
-        <span class="dates">Oct 2025 – Present</span>
-      </div>
-      <ul>
-        <li>Manage make-ready operations for 2,444 units across six phases, each operated as its own property.</li>
-        <li>Lead a 7-person make-ready organization (2 assistant managers, 1 coordinator, 4 technicians) and a network of outside vendors.</li>
-        <li>Manage a unit renovation program in one phase alongside daily turn operations.</li>
-        <li>Run turns end to end: scheduling, vendor coordination, inspections, and readiness reporting to leasing and management, working to a seven-business-day turn standard.</li>
-      </ul>
-    </div>
+  const builders = {
+    summary: sectionSummary,
+    capabilities: sectionCapabilities,
+    product: sectionProduct,
+    systems: sectionSystems,
+    experience: () => sectionExperience(),
+    education: () => sectionEducation()
+  };
 
-    <div class="job">
-      <div class="role">
-        <h3>Service Manager <span class="where">| MAA, Dallas, TX</span></h3>
-        <span class="dates">Jun 2023 – Oct 2025</span>
-      </div>
-      <ul>
-        <li>Managed a $1M+ operating budget and $5M+ in capital projects across a 535+ unit operation.</li>
-        <li>Led a 7-person team (4 technicians, 2 make-ready staff, 1 housekeeper) and coordinated outside vendors.</li>
-        <li>Took an over-budget maintenance operation to roughly $30K under budget in a single month, close to 40% of the monthly budget.</li>
-        <li>Built Python reporting and KPI dashboards that replaced manual reports; audit pass rates improved about 30%. Trained 8 to 10 staff on the new tools.</li>
-      </ul>
-    </div>
+  function render(variant) {
+    const phoneHref = "tel:+1" + DATA.phone.replace(/\D/g, "");
+    const body = variant.sections.map((key) => (builders[key] ? builders[key](variant) : "")).join("");
+    root.innerHTML = `
+      <header>
+        <h1>${esc(DATA.name)}</h1>
+        <p class="headline">${esc(variant.headline)}</p>
+        <div class="contact">
+          <span>${esc(DATA.location)}</span>
+          <a href="${phoneHref}">${esc(DATA.phone)}</a>
+          <a href="mailto:${esc(DATA.email)}">${esc(DATA.email)}</a>
+          <a href="${esc(DATA.links.linkedin)}">LinkedIn</a>
+          <a href="${esc(DATA.links.github)}">GitHub</a>
+        </div>
+      </header>
+      ${body}`;
 
-    <div class="job">
-      <div class="role">
-        <h3>Service Manager <span class="where">| RPM Living, Dallas, TX</span></h3>
-        <span class="dates">May 2022 – Jun 2023</span>
-      </div>
-      <ul>
-        <li>Built Excel/VBA automation that cut reporting time by roughly 70% through a redesigned data model and automated aggregation.</li>
-      </ul>
-    </div>
+    download.href = variant.file;
+    download.setAttribute("download", variant.file);
+    download.title = "Download " + variant.label + " Word resume";
+    hint.textContent = "Best for: " + variant.for;
+    document.title = DATA.name + " | " + variant.label + " Resume";
+    document.querySelector('meta[name="description"]').setAttribute(
+      "content",
+      variant.headline + ". " + DATA.shortBio
+    );
 
-    <div class="job">
-      <div class="role">
-        <h3>Residential Renovation Lead <span class="where">| First Choice, Dallas, TX</span></h3>
-        <span class="dates">Jan 2021 – May 2022</span>
-      </div>
-      <ul>
-        <li>Led scheduling, budgeting and milestone tracking for high-volume residential renovations across concurrent projects.</li>
-      </ul>
-    </div>
+    tabs.querySelectorAll(".seg").forEach((btn) => {
+      btn.setAttribute("aria-pressed", btn.dataset.id === variant.id ? "true" : "false");
+    });
+  }
 
-    <p class="muted" style="margin-top:16px"><b>Earlier roles:</b> Maintenance Technician II (American Community), Operations Assistant to Kitchen Manager (Universal Studios)</p>
-  </section>
+  function select(id, push) {
+    const variant = DATA.variants.find((v) => v.id === id) || DATA.variants[0];
+    render(variant);
+    if (push) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("v", variant.id);
+      history.replaceState(null, "", url);
+    }
+  }
 
-  <section class="edu" aria-labelledby="education">
-    <h2 id="education">Education &amp; Certifications</h2>
-    <p>B.B.A., Computer Information Systems, Ana G. Méndez University (expected Dec 2027)</p>
-    <p>IBM AI Engineering Professional Certificate (in progress)</p>
-    <p>Google Project Management Certificate (2025), Python for Everybody, University of Michigan (2025)</p>
-    <p>Industry credentials: EPA 608 Universal, Certified Pool Operator</p>
-  </section>
-</main>
+  DATA.variants.forEach((v) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "seg";
+    btn.dataset.id = v.id;
+    btn.textContent = v.label;
+    btn.setAttribute("role", "tab");
+    btn.setAttribute("aria-pressed", "false");
+    btn.addEventListener("click", () => select(v.id, true));
+    tabs.appendChild(btn);
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  const initial = params.get("v") || "implementation";
+  select(initial, false);
+})();
+</script>
 </body>
 </html>
