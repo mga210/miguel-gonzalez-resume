@@ -86,6 +86,22 @@ a:focus-visible {
   background: color-mix(in srgb, var(--bg) 82%, transparent);
 }
 
+.bar.variants {
+  position: static;
+  justify-content: flex-end;
+  padding-top: 0;
+  padding-bottom: 8px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: transparent;
+}
+
+.bar.variants a {
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 6px 12px;
+}
+
 .bar a,
 .bar button {
   display: inline-flex;
@@ -102,7 +118,7 @@ a:focus-visible {
   padding: 8px 14px;
   border-radius: 999px;
   cursor: pointer;
-  box-shadow: 0 1px 2px rgba(21, 32, 43, 0.04);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   transition: border-color 0.2s var(--ease), background 0.2s var(--ease), transform 0.2s var(--ease);
 }
 
@@ -381,7 +397,8 @@ li::marker { color: color-mix(in srgb, var(--accent) 70%, var(--muted)); }
     color: #000;
   }
 
-  .bar { display: none !important; }
+  .bar,
+  .bar.variants { display: none !important; }
 
   main {
     border: 0;
@@ -415,10 +432,7 @@ li::marker { color: color-mix(in srgb, var(--accent) 70%, var(--muted)); }
 </head>
 <body>
 <nav class="bar" aria-label="Resume actions">
-  <a href="Miguel_Gonzalez_Resume.pdf" download>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    PDF
-  </a>
+  <a href="https://mgsystemsdev.github.io" target="_blank" rel="noopener">Portfolio</a>
   <a href="Miguel_Gonzalez_Resume.docx" download>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
     Word
@@ -428,6 +442,12 @@ li::marker { color: color-mix(in srgb, var(--accent) 70%, var(--muted)); }
     Print
   </button>
 </nav>
+<div class="bar variants" aria-label="Resume variants">
+  <a href="Miguel_Gonzalez_Resume_Product.docx" download>Product</a>
+  <a href="Miguel_Gonzalez_Resume_Program.docx" download>Program</a>
+  <a href="Miguel_Gonzalez_Resume_Solutions.docx" download>Solutions</a>
+  <a href="Miguel_Gonzalez_Resume_Operations.docx" download>Operations</a>
+</div>
 
 <main>
   <header>
@@ -501,15 +521,13 @@ li::marker { color: color-mix(in srgb, var(--accent) 70%, var(--muted)); }
     <div class="job">
       <div class="role">
         <h3>Senior Make-Ready Manager <span class="where">| Billingsley Company, Dallas, TX</span></h3>
-        <span class="dates">Sep 2026 – Present</span>
-      </div>
-      <div class="role">
-        <h3>Make-Ready Manager</h3>
-        <span class="dates">Oct 2025 – Sep 2026</span>
+        <span class="dates">Oct 2025 – Present</span>
       </div>
       <ul>
-        <li>Promoted within 11 months as scope doubled from 1,244 to 2,444 units.</li>
-        <li>Run make-ready operations end to end: turn scheduling, vendor coordination, inspections, and readiness reporting to leasing and management, working to a seven-business-day turn standard.</li>
+        <li>Manage make-ready operations for 2,444 units across six phases, each operated as its own property.</li>
+        <li>Lead a 7-person make-ready organization (2 assistant managers, 1 coordinator, 4 technicians) and a network of outside vendors.</li>
+        <li>Manage a unit renovation program in one phase alongside daily turn operations.</li>
+        <li>Run turns end to end: scheduling, vendor coordination, inspections, and readiness reporting to leasing and management, working to a seven-business-day turn standard.</li>
       </ul>
     </div>
 
@@ -520,6 +538,7 @@ li::marker { color: color-mix(in srgb, var(--accent) 70%, var(--muted)); }
       </div>
       <ul>
         <li>Managed a $1M+ operating budget and $5M+ in capital projects across a 535+ unit operation.</li>
+        <li>Led a 7-person team (4 technicians, 2 make-ready staff, 1 housekeeper) and coordinated outside vendors.</li>
         <li>Took an over-budget maintenance operation to roughly $30K under budget in a single month, close to 40% of the monthly budget.</li>
         <li>Built Python reporting and KPI dashboards that replaced manual reports; audit pass rates improved about 30%. Trained 8 to 10 staff on the new tools.</li>
       </ul>
