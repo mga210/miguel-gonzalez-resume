@@ -2,7 +2,7 @@
 
 Professional HTML resume, deployed via GitHub Pages. Content synced from `mg/content.json`.
 
-**Live:** https://mgsystemsdev.github.io/resume-MG/
+**Live:** https://mga210.github.io/miguel-gonzalez-resume/
 
 Use the segmented control to switch variants (Implementation / Product / Program / Solutions / Operations). Word download always matches the variant on screen. Deep link with `?v=product` (etc.).
 
